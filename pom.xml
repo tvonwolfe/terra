@@ -11,7 +11,7 @@
 	<groupId>com.tonyvonwolfe</groupId>
 	<artifactId>terra</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Terra: Server Management for Minecraft</name>
+	<name>Terra</name>
 	<description>Server Manager for Minecraft</description>
 
 	<properties>
