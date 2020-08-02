@@ -6,12 +6,11 @@ import com.tonyvonwolfe.terra.model.ServerInstanceRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.print.attribute.standard.PresentationDirection;
 import javax.validation.Valid;
-import java.lang.invoke.SerializedLambda;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Collection;
@@ -25,7 +24,7 @@ public class ServerInstanceController {
     private final String SERVER_ROUTE = "/server";
 
     private final Logger LOGGER = LoggerFactory.getLogger(ServerInstanceController.class);
-    private ServerInstanceRepository serverInstanceRepository;
+    private final ServerInstanceRepository serverInstanceRepository;
 
     public ServerInstanceController(ServerInstanceRepository serverInstanceRepository) {
         this.serverInstanceRepository = serverInstanceRepository;
@@ -60,9 +59,18 @@ public class ServerInstanceController {
     }
 
     @DeleteMapping(SERVER_ROUTE + "/{id}")
-    public ResponseEntity<?> deleteServer(@PathVariable Long id) {
+    ResponseEntity<?> deleteServer(@PathVariable Long id) {
         LOGGER.info("Request to delete group: {}", id);
         serverInstanceRepository.deleteById(id);
         return ResponseEntity.ok().build();
+    }
+
+    @PutMapping(SERVER_ROUTE + "/{id}/start")
+    ResponseEntity<?> startServer(@PathVariable Long id) {
+        LOGGER.info("Request to start server: {}", id);
+        Optional<ServerInstance> server = serverInstanceRepository.findById(id);
+
+        return server.map(response -> ResponseEntity.ok().body(response))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 }

@@ -1,6 +1,7 @@
 package com.tonyvonwolfe.terra.model;
 
 import lombok.*;
+import org.springframework.data.annotation.ReadOnlyProperty;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -16,13 +17,24 @@ public class ServerInstance {
     @GeneratedValue
     private Long id;
 
-
     @NonNull
     private String name; // name of the server.
+
     @NonNull
     private String serverPath; // points to the folder the server executes out of.
+
+    @ReadOnlyProperty
     private boolean isRunning; // indicates whether the server is online or not.
 
+    @ReadOnlyProperty
     private Timestamp lastServerStartTimestamp; // timestamp of the last time the server was started.
+
+    public boolean startServer() {
+        return false;
+    }
+
+    public boolean stopServer() {
+        return false;
+    }
 
 }
