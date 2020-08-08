@@ -6,7 +6,6 @@ import com.tonyvonwolfe.terra.model.ServerInstanceRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -60,7 +59,7 @@ public class ServerInstanceController {
 
     @DeleteMapping(SERVER_ROUTE + "/{id}")
     ResponseEntity<?> deleteServer(@PathVariable Long id) {
-        LOGGER.info("Request to delete group: {}", id);
+        LOGGER.info("Request to delete server: {}", id);
         serverInstanceRepository.deleteById(id);
         return ResponseEntity.ok().build();
     }
