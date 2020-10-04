@@ -72,4 +72,13 @@ public class ServerInstanceController {
         return server.map(response -> ResponseEntity.ok().body(response))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
+
+    @PutMapping(SERVER_ROUTE + "/{id}/stop")
+    ResponseEntity<?> stopServer(@PathVariable Long id) {
+        LOGGER.info("Request to stop server: {}", id);
+        Optional<ServerInstance> server = serverInstanceRepository.findById(id);
+
+        return server.map(response -> ResponseEntity.ok().body(response))
+            .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
 }
