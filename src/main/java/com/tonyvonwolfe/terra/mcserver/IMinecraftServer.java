@@ -26,6 +26,15 @@ public interface IMinecraftServer {
     CompletableFuture<Integer> stopServer();
 
     /**
+     * Restarts a Minecraft server, if it's running. Terminates the server
+     * process and immediately starts a new one.
+     * 
+     * @return true if the server restarted successfully, false if not.
+     * @throws ServerStateException if the server is not running.
+     * */
+    CompletableFuture<Boolean> restartServer();
+
+    /**
      * Checks if the server process is currently executing.
      *
      * @return true if the server is running, false otherwise.
@@ -74,5 +83,5 @@ public interface IMinecraftServer {
      *
      * @return the approximate server latency for the user, in milliseconds.
      */
-    CompletableFuture<Integer> determineLatencyMilliseconds();
+    CompletableFuture<Integer> getMeasuredLatency();
 }
