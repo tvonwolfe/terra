@@ -1,6 +1,6 @@
 package com.tonyvonwolfe.terra.web;
 
-import com.tonyvonwolfe.terra.model.ServerInstance;
+import com.tonyvonwolfe.terra.model.mcserver.MCServer;
 import com.tonyvonwolfe.terra.model.ServerInstanceRepository;
 
 import org.slf4j.Logger;
@@ -30,29 +30,29 @@ public class ServerInstanceController {
     }
 
     @GetMapping(SERVERS_ROUTE)
-    Collection<ServerInstance> servers() {
+    Collection<MCServer> servers() {
         return serverInstanceRepository.findAll();
     }
 
     @GetMapping(SERVER_ROUTE + "/{id}")
     ResponseEntity<?> getServerInstance(@PathVariable Long id) {
-        Optional<ServerInstance> serverInstance = serverInstanceRepository.findById(id);
+        Optional<MCServer> serverInstance = serverInstanceRepository.findById(id);
 
         return serverInstance.map(response -> ResponseEntity.ok().body(response))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PostMapping(SERVER_ROUTE)
-    ResponseEntity<ServerInstance> createServer(@Valid @RequestBody ServerInstance serverInstance) throws URISyntaxException {
+    ResponseEntity<MCServer> createServer(@Valid @RequestBody MCServer serverInstance) throws URISyntaxException {
         LOGGER.info("Request to create server: {}", serverInstance);
-        ServerInstance result = serverInstanceRepository.save(serverInstance);
+        MCServer result = serverInstanceRepository.save(serverInstance);
         return ResponseEntity.created(new URI("/api" + SERVER_ROUTE + result.getId())).body(result);
     }
 
     @PutMapping(SERVER_ROUTE + "/{id}")
-    ResponseEntity<ServerInstance> updateServer(@Valid @RequestBody ServerInstance serverInstance) {
+    ResponseEntity<MCServer> updateServer(@Valid @RequestBody MCServer serverInstance) {
         LOGGER.info("Request to update server: {}", serverInstance);
-        ServerInstance result = serverInstanceRepository.save(serverInstance);
+        MCServer result = serverInstanceRepository.save(serverInstance);
 
         return ResponseEntity.ok().body(result);
     }
@@ -67,7 +67,7 @@ public class ServerInstanceController {
     @PutMapping(SERVER_ROUTE + "/{id}/start")
     ResponseEntity<?> startServer(@PathVariable Long id) {
         LOGGER.info("Request to start server: {}", id);
-        Optional<ServerInstance> server = serverInstanceRepository.findById(id);
+        Optional<MCServer> server = serverInstanceRepository.findById(id);
 
         return server.map(response -> ResponseEntity.ok().body(response))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
@@ -76,7 +76,7 @@ public class ServerInstanceController {
     @PutMapping(SERVER_ROUTE + "/{id}/stop")
     ResponseEntity<?> stopServer(@PathVariable Long id) {
         LOGGER.info("Request to stop server: {}", id);
-        Optional<ServerInstance> server = serverInstanceRepository.findById(id);
+        Optional<MCServer> server = serverInstanceRepository.findById(id);
 
         return server.map(response -> ResponseEntity.ok().body(response))
             .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));

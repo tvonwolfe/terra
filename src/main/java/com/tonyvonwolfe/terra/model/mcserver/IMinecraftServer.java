@@ -1,4 +1,4 @@
-package com.tonyvonwolfe.terra.mcserver;
+package com.tonyvonwolfe.terra.model.mcserver;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -28,18 +28,18 @@ public interface IMinecraftServer {
     /**
      * Restarts a Minecraft server, if it's running. Terminates the server
      * process and immediately starts a new one.
-     * 
+     *
      * @return true if the server restarted successfully, false if not.
-     * @throws ServerStateException if the server is not running.
+     * @throws ServerStateException if the server isn't running.
      * */
-    CompletableFuture<Boolean> restartServer();
+    CompletableFuture<Boolean> restartServer() throws ServerStateException;
 
     /**
      * Checks if the server process is currently executing.
      *
      * @return true if the server is running, false otherwise.
      */
-    boolean isServerRunning();
+    CompletableFuture<Boolean> isServerRunning();
 
     /**
      * Assigns a new file path to the Minecraft server jar file.
@@ -50,7 +50,7 @@ public interface IMinecraftServer {
      *                       running, changing the server jar file path will take
      *                       effect on the next server startup.
      */
-    void assignServerJar(String newJarFilePath);
+    ServerPathAssignmentResult assignServerJar(String newJarFilePath);
 
     /**
      * Retrieves the absolute path to the Minecraft server jar file being used for
@@ -66,7 +66,7 @@ public interface IMinecraftServer {
      * @return the number of players connected to the server.
      * @throws ServerStateException if the server is not running.
      */
-    int getNumConnectedPlayers();
+    CompletableFuture<Integer> getNumConnectedPlayers() throws ServerStateException;
 
     /**
      * Gets the last server start time in milliseconds since Unix epoch.
@@ -75,13 +75,14 @@ public interface IMinecraftServer {
      *         epoch.
      * @throws ServerStateException if the server has never been started before.
      */
-    long getLastServerStartTime();
+    long getLastServerStartTime() throws ServerStateException;
 
     /**
      * Determines the approximate average latency between the server and the client
      * accessing the server management console, in milliseconds.
      *
      * @return the approximate server latency for the user, in milliseconds.
+     * @throws ServerStateException if the server isn't running.
      */
-    CompletableFuture<Integer> getMeasuredLatency();
+    CompletableFuture<Integer> getMeasuredLatency() throws ServerStateException;
 }
